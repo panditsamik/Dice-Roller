@@ -2,75 +2,110 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 void main() {
-  runApp(
-    MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white10,
-        appBar: AppBar(
-          title: const Center(
-            child: Text("Dice Roller"),
-          ),
-          backgroundColor: Colors.blue.shade900,
-        ),
-        body: const SafeArea(
-          child: DiceRoller(),
-        ),
-      ),
-    ),
-  );
+  runApp(const dicee_app());
 }
 
-class DiceRoller extends StatefulWidget {
-  const DiceRoller({Key? key}) : super(key: key);
+class dicee_app extends StatefulWidget {
+  const dicee_app({Key? key}) : super(key: key);
 
   @override
-  State<DiceRoller> createState() => _DiceRollerState();
+  State<dicee_app> createState() => _dicee_appState();
 }
 
-class _DiceRollerState extends State<DiceRoller> {
+var diceNumber1 = 1;
+var diceNumber2 = 5;
 
-  var diceNumber = 5;
+void diceChange1() {
+  diceNumber1 = Random().nextInt(6) + 1;
+}
 
-  //Function to change the dice number/image
-  void changeDice(){
-    setState(() {
-      diceNumber = Random().nextInt(6) + 1;
-    });
-  }
+void diceChange2() {
+  diceNumber2 = Random().nextInt(6) + 1;
+}
 
-
+class _dicee_appState extends State<dicee_app> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Image(
-              image: AssetImage('images/dice$diceNumber.png'),
-              width: 300,
-              height: 300,
+    return MaterialApp(
+      home: Center(
+        child: Scaffold(
+          backgroundColor: Colors.red.shade50,
+          appBar: AppBar(
+            backgroundColor: Colors.red.shade900,
+            title: const Center(
+              child: Text(
+                'Dicee',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                ),
+              ),
             ),
           ),
-          const SizedBox(
-            height: 0.0,
-            width: 350.0,
-            child: Divider(
-              color: Colors.white,
+          body: Center(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 220.0,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        style: const ButtonStyle(),
+                        onPressed: () {
+                          setState(() {
+                            diceChange1();
+                          });
+                        },
+                        child: Image(
+                          image: AssetImage('images/dice$diceNumber1.png'),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: TextButton(
+                        style: const ButtonStyle(),
+                        onPressed: () {
+                          setState(() {
+                            diceChange2();
+                          });
+                        },
+                        child: Image(
+                          image: AssetImage('images/dice$diceNumber2.png'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 200.0,
+                ),
+                Divider(
+                  color: Colors.red.shade700,
+                  height: 5.0,
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.redAccent.shade700),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      diceChange1();
+                    });
+                    setState(() {
+                      diceChange2();
+                    });
+                  },
+                  child: const Text('ROLL'),
+                ),
+              ],
             ),
           ),
-          TextButton(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.yellow),
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.blue.shade700),
-            ),
-            onPressed: () {
-              changeDice();
-            },
-            child: const Text("Roll"),
-          ),
-        ],
+        ),
       ),
     );
   }
